@@ -395,7 +395,9 @@ function showSubjectExams(subjectId){
   const examCards = exs.map(e=>{
     const available = isExamAvailable(e);
     const attempts = getAttemptCount(currentUser.id, e.id);
-    const canTake = available && (e.maxAttempts === 0 || attempts < e.maxAttempts);
+    // Default maxAttempts to 0 (unlimited) if undefined
+    const maxAttempts = (e.maxAttempts === undefined || e.maxAttempts === null) ? 0 : e.maxAttempts;
+    const canTake = available && (maxAttempts === 0 || attempts < maxAttempts);
     
     let statusBadge = '';
     if (!available) {
@@ -404,8 +406,8 @@ function showSubjectExams(subjectId){
       } else {
         statusBadge = `<span class="badge badge-danger">Ended</span>`;
       }
-    } else if (e.maxAttempts > 0) {
-      statusBadge = `<span class="badge badge-info">Attempts: ${attempts}/${e.maxAttempts}</span>`;
+    } else if (maxAttempts > 0) {
+      statusBadge = `<span class="badge badge-info">Attempts: ${attempts}/${maxAttempts}</span>`;
     }
     
     return `
@@ -1065,7 +1067,23 @@ function createExamFromForm(){
   const dur = parseInt(document.getElementById('newExamDur').value) || 10;
   const qnum = Math.max(1, parseInt(document.getElementById('newExamQ').value) || 3);
   if(!title){ showToast('Title required', 'error'); return; }
-  const ex = { id: uid('exam'), subjectId, title, description:desc, durationMin:dur, createdBy: currentUser.id, questions:[] };
+  const ex = { 
+    id: uid('exam'), 
+    subjectId, 
+    title, 
+    description:desc, 
+    durationMin:dur, 
+    createdBy: currentUser.id, 
+    questions:[],
+    // Defaults for properties not in this simple form
+    passingScore: 60,
+    maxAttempts: 0,
+    showFeedback: true,
+    randomizeQuestions: false,
+    randomizeChoices: false,
+    startDate: null,
+    endDate: null
+  };
   for(let i=0;i<qnum;i++){
     ex.questions.push({ id: uid('q'), text:`Question ${i+1} text`, choices:['Option 1','Option 2','Option 3','Option 4'], answerIndex:0, marks:1 });
   }
