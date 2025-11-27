@@ -26,20 +26,53 @@ function seedDB(){
     {
       id: uid('exam'), 
       subjectId: sampleSubjectId, 
-      title:'General Knowledge', 
-      description:'Short general knowledge quiz', 
-      durationMin:5,
+      title:'Programming Basics', 
+      description:'Fundamental concepts of programming and web development.', 
+      durationMin:15,
       passingScore: 60,
       maxAttempts: 3,
-      randomizeQuestions: false,
-      randomizeChoices: false,
+      randomizeQuestions: true,
+      randomizeChoices: true,
       showFeedback: true,
       startDate: null,
       endDate: null,
       createdBy: teacherId, 
       questions:[
-        { id: uid('q'), text:'What is the capital of Bangladesh?', choices:['Chittagong','Khulna','Dhaka','Barishal'], answerIndex:2, marks:1 },
-        { id: uid('q'), text:'HTML stands for?', choices:['Hyper Trainer Marking Language','Hyper Text Markup Language','High Text Markup Language','None'], answerIndex:1, marks:1 }
+        { 
+          id: uid('q'), 
+          text:'What is the time complexity of accessing an element in an array by index?', 
+          choices:['O(1)','O(n)','O(log n)','O(n^2)'], 
+          answerIndex:0, 
+          marks:1 
+        },
+        { 
+          id: uid('q'), 
+          text:'Which loop is guaranteed to execute at least once?', 
+          choices:['for loop','while loop','do-while loop','foreach loop'], 
+          answerIndex:2, 
+          marks:1 
+        },
+        { 
+          id: uid('q'), 
+          text:'Which data structure follows the LIFO (Last In First Out) principle?', 
+          choices:['Queue','Stack','Linked List','Tree'], 
+          answerIndex:1, 
+          marks:1 
+        },
+        { 
+          id: uid('q'), 
+          text:'In JavaScript, what is the result of typeof null?', 
+          choices:['"null"','"undefined"','"object"','"number"'], 
+          answerIndex:2, 
+          marks:1 
+        },
+        { 
+          id: uid('q'), 
+          text:'Which CSS property is used to change the background color?', 
+          choices:['color','bgcolor','background-color','background-image'], 
+          answerIndex:2, 
+          marks:1 
+        }
       ]
     }
   ];
